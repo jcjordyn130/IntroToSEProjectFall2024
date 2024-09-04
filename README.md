@@ -12,3 +12,8 @@ This project is going to be written in Python3 using SQLite3 as the database bac
 ## Description
 
 ## Languages
+
+* Python 3
+* SQLite
+
+These languages will run on a local machine.
