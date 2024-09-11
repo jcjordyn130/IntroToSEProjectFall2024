@@ -8,6 +8,7 @@ This project is going to be written in Python3 using SQLite3 as the database bac
 * Boatwright, Brennan (bdb600)
 * Carattini, Jordyn (jbc636)
 * Reid, Scott (smr638)
+* Lofton, Maddux (msl279)
 
 ## Description
 
