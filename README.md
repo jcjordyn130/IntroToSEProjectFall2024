@@ -11,6 +11,7 @@ This project is going to be written in Python3 using SQLite3 as the database bac
 * Lofton, Maddux (msl279)
 
 ## Description
+This is going to be a simple website (not web application) for ecommerce, just like Amazon and the like are. Obviously this project will NOT be as complex as Amazon, however, it is just a little something to showcase our software development skills.
 
 ## Languages
 
