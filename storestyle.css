@@ -25,3 +25,25 @@ footer {
     border: 2px solid black;
     border-radius: 4px;
 }
+
+.item {
+    border-style: solid;
+    width: 50%;
+    background-color: rgb(240, 240, 240);
+    padding: 4px;
+    border: 2px solid black;
+    border-radius: 4px;
+    margin: 4px;
+    overflow: auto;
+}
+.price {
+    text-align: right;
+    width: 20%;
+    background-color: rgb(240, 240, 240);
+    padding: 4px;
+    margin: 4px;
+    border: 2px solid black;
+    border-radius: 4px;
+    float: right;    
+}
+
