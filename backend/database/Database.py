@@ -273,6 +273,16 @@ class Database():
 
             self.cur.execute("UPDATE orderitems SET quantity = ? WHERE id = ?", (orderitem.quantity - quantity, orderitem.id))
 
+    def getItemsFromOrder(self, order, item = None):
+        with self._lock:
+            cur = self.cur
+            cur.row_factory = OrderItemsRowFactory
+            if item:
+                cur.execute("SELECT * FROM orderitems WHERE orderid = ? AND item = ?", (order.id, item.id))
+            else:
+                cur.execute("SELECT * from orderitems WHERE orderid = ?", (order.id,))
+
+            return cur.fetchall()
 
     def deleteOrder(self, order):
         print(f"Deleting order {order} from database!")
