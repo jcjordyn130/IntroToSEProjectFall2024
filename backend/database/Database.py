@@ -251,6 +251,29 @@ class Database():
                     orderitem.quantity
                 ))
         
+    def deleteItemsFromOrder(self, order, item, quantity = 1):
+        print(f"Deleting {quantity} item(s) from order {order}")
+        # Make sure order exists
+        if not self.getOrder(id = order.id):
+            raise ValueError(f"Order {order} does not exist in the database!")
+
+        # Make sure the item exists
+        # We remove the item from current orders if the item is removed later on
+        if not self.getItem(id = item.id):
+            raise ValueError(f"Item {item} does not exist in the database!")
+
+        # Check for existing order item
+        with self._lock:
+            cur = self.cur
+            cur.row_factory = OrderItemsRowFactory
+            cur.execute("SELECT * FROM orderitems WHERE orderid = ? AND item = ?", (order.id, item.id))
+            orderitem = cur.fetchone()
+            if not orderitem:
+                return ValueError("Cannot delete item as it is not in the order")
+
+            self.cur.execute("UPDATE orderitems SET quantity = ? WHERE id = ?", (orderitem.quantity - quantity, orderitem.id))
+
+
     def deleteOrder(self, order):
         print(f"Deleting order {order} from database!")
 
