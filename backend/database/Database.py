@@ -43,6 +43,41 @@ class Database():
             self.cur.execute("CREATE TABLE IF NOT EXISTS paymentmethods(id TEXT PRIMARY KEY, user TEXT, name STRING, cardno INTEGER UNIQUE, cardexp TEXT, cardcvv TEXT, billingaddress TEXT)")
             self.cur.execute("CREATE TABLE IF NOT EXISTS items(id TEXT PRIMARY KEY, name TEXT, description TEXT, quantity INTEGER, seller TEXT, approval INTEGER)")
     
+    def countUsers(self):
+        with self._lock:
+            cur = self.cur
+            cur.execute("SELECT count(*) FROM users")
+            count = cur.fetchone()[0]
+            return count
+
+    def countOrders(self):
+        with self._lock:
+            cur = self.cur
+            cur.execute("SELECT count(*) FROM orders")
+            count = cur.fetchone()[0]
+            return count
+
+    def countOrderItems(self):
+        with self._lock:
+            cur = self.cur
+            cur.execute("SELECT count(*) FROM orderitems")
+            count = cur.fetchone()[0]
+            return count
+
+    def countPaymentMethods(self):
+        with self._lock:
+            cur = self.cur
+            cur.execute("SELECT count(*) FROM paymentmethods")
+            count = cur.fetchone()[0]
+            return count
+
+    def countItems(self):
+        with self._lock:
+            cur = self.cur
+            cur.execute("SELECT count(*) FROM items")
+            count = cur.fetchone()[0]
+            return count
+
     def getUser(self, id = None, username = None, email = None):
         optVars = [id is None, username is None, email is None]
         if len([x for x in optVars if x == False]) != 1:
