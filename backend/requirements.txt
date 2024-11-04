@@ -1,0 +1,3 @@
+flask
+faker # for gendummydb.py
+bcrypt # for password hashing
