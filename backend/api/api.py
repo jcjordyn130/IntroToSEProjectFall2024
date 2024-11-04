@@ -1,11 +1,35 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Request
 from .. import database
 from . import errors, responses, keymanager
 from ..database.dbtypes import *
 from functools import wraps
 import copy
 
-app = Flask(__name__)
+# These are up here instead of by api_key_required even though it makes more sense
+# As it has to be before the app init code.
+class CustomRequest(Request):
+    """ CustomRequest adds our in-house API key management to Flask requests.
+
+    If an API key requiring endpoint is called and the API key is valid, then
+    the API key and user database object are autopopulated in the request.
+
+    This reduces boilerplate code in each API call associates with keeping up
+    authentication state.
+    """
+
+    """ The currently logged in user associated with the request, if any. """
+    user = None
+
+    """ The current API key associated with the request, if any. 
+    Any key set here is known to be valid as the decorator
+    verifies the key.
+    """
+    key = None
+
+class CustomFlask(Flask):
+    request_class = CustomRequest
+
+app = CustomFlask(__name__)
 db = database.Database("db.sqlite3")
 km = keymanager.APIKeyManager(db)
 
@@ -34,6 +58,15 @@ def api_key_required(level):
                 print(f"UserLevel required for this function is {level} but we have {key.userlevel}!")
                 return errors.AuthorizationRequired
 
+            # Grab user to add to request.
+            user = db.getUser(username = key.username)
+            if not user:
+                return errors.UserNotFound
+            
+            # key is good and level is good, add deets to the request.
+            request.key = key
+            request.user = user
+
             return f(*args, **kwargs)
 
         return decorated_function
@@ -44,6 +77,25 @@ def api_key_required(level):
 def whatwhoisthis():
     return "There is nothing to see here. <br> <b> Move along. </b>"
 
+@app.route("/debug/km")
+def debug_km():
+    strs = [f"Key Manager: {km}", "Keys: "]
+    for key in km.__keys__:
+        strs.append(repr(key))
+
+    return "<br>".join(strs)
+
+@app.route("/debug/db")
+def debug_db():
+    items = db.countItems()
+    orderitems = db.countOrderItems()
+    orders = db.countOrders()
+    pms = db.countPaymentMethods()
+    users = db.countUsers()
+    total = items + orderitems + orders + pms + users
+    strs = [f"Items: {items}", f"Order Items: {orderitems}", f"Orders: {orders}", f"Payment Methods: {pms}", f"Users: {users}", f"Total: {total}"]
+    return "<br>".join(strs)
+    
 @app.route("/user/<username>/login", methods = ["GET", "POST"])
 def login(username):
     data = request.json
@@ -182,7 +234,7 @@ def addItemsToOrder(id, itemid, quantity):
 
     # Return not found if user is not an admin and order is does not belong to them.
     if order.user != user.id and user.userlevel != UserLevel.Admin:
-        print(f"Non-admin user {user} attempted to delete order {order}!")
+        print(f"Non-admin user {user} at    tempted to delete order {order}!")
         return errors.ResourceNotFound
 
     # Grab item
@@ -198,3 +250,6 @@ def addItemsToOrder(id, itemid, quantity):
         return errors.exc(err, e)
 
     return responses.GenericOK
+
+if __name__ == "__main__":
+    app.run(host = "127.0.0.1", port = "5000", debug = True)
