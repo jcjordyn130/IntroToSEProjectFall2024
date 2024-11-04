@@ -234,7 +234,7 @@ def addItemsToOrder(id, itemid, quantity):
 
     # Return not found if user is not an admin and order is does not belong to them.
     if order.user != user.id and user.userlevel != UserLevel.Admin:
-        print(f"Non-admin user {user} at    tempted to delete order {order}!")
+        print(f"Non-admin user {user} attempted to manage order {order}!")
         return errors.ResourceNotFound
 
     # Grab item
@@ -248,6 +248,29 @@ def addItemsToOrder(id, itemid, quantity):
     except OverflowError as e:
         err = errors.build(errors.OutOfItem, {"extra": {"quantity": quantity, "onhandquantity": item.quantity}})
         return errors.exc(err, e)
+
+    return responses.GenericOK
+
+@app.route("/order/<id>/delete/<itemid>/<int:quantity>", methods = ["DELETE"])
+@api_key_required(level = UserLevel.Buyer)
+def removeItemsFromOrder(id, itemid, quantity):
+    # Grab order from DB
+    order = db.getOrder(id)
+    if not order:
+        return errors.ResourceNotFound
+
+    # Return not found if user is not an admin and order is does not belong to them.
+    if order.user != request.user.id and request.user.userlevel != UserLevel.Admin:
+        print(f"Non-admin user {user} at atempted to manage order {order}!")
+        return errors.ResourceNotFound
+
+    # Grab item
+    item = db.getItem(itemid)
+    if not item:
+        return errors.ResourceNotFound
+
+    # Remove items
+    db.removeItemsFromOrder(order, item, quantity = quantity)
 
     return responses.GenericOK
 
