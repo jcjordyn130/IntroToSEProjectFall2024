@@ -93,12 +93,24 @@ def addItemsToOrder(order, item, quantity):
 	print(json)
 	return json["status"] == "ok"
 
+def getOrderInfo(order):
+	url = urljoin(baseurl, f"/order/{order}/info")
+	resp = s.get(url)
+	#print(resp.text)
+	json = resp.json()
+	print(json)
+	return json["status"] == "ok"
+
 login(user, password)
 print(getUserInfo())
 order = createOrder()
-item = input("Item to add: ")
-quantity = input("Quantity of items to add: ")
-print(addItemsToOrder("d58518463ad34620a1895025fdc634a5", item, quantity))
+#item = input("Item to add: ")
+#quantity = input("Quantity of items to add: ")
+quantity = 2000
+#print(addItemsToOrder("d58518463ad34620a1895025fdc634a5", item, quantity))
+for i in ["2c875521313845afb89a7a44dae7dabb", "2934dba05d5846f1be51b724e8128c3b", "cbd927a7845d4fb1b866a1d4a5f9bf2c"]:
+	print(addItemsToOrder(order["id"], i, quantity))
+getOrderInfo(order["id"])
 #user = input("User to approve: ")
 #approveUser(user)
 #print(getUserInfo())

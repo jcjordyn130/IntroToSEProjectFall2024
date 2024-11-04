@@ -274,5 +274,28 @@ def removeItemsFromOrder(id, itemid, quantity):
 
     return responses.GenericOK
 
+@app.route("/order/<id>/info", methods = ["GET"])
+@api_key_required(level = UserLevel.Buyer)
+def grabOrderInfo(id):
+    # Grab order from DB
+    order = db.getOrder(id)
+    if not order:
+        return errors.ResourceNotFound
+
+    # Return not found if user is not an admin and order is does not belong to them.
+    if order.user != request.user.id and request.user.userlevel != UserLevel.Admin:
+        print(f"Non-admin user {user} at atempted to manage order {order}!")
+        return errors.ResourceNotFound
+
+    # Grab items
+    items = db.getItemsFromOrder(order)
+    formatteditems = [{"id": x.item, "quantity": x.quantity} for x in items]
+
+    # return info
+    return responses.build(responses.GenericOK, {"id": order.id,
+    "user": order.user,
+    "status": order.orderstatus.value,
+    "items": formatteditems})
+
 if __name__ == "__main__":
     app.run(host = "127.0.0.1", port = "5000", debug = True)
