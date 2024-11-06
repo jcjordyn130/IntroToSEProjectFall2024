@@ -162,7 +162,17 @@ def createUser(username):
     db.commitUser(user)
 
     return responses.GenericOK
-    
+
+@app.route("/user/list", methods = ["GET"])
+@api_key_required(level = UserLevel.Admin)
+def listUsers():
+    # Get users
+    users = db.getAllUsers()
+    users = [repr(x) for x in users]
+
+    # Return
+    return responses.build(responses.GenericOK, {"users": users})
+
 @app.route("/user/logout")
 @api_key_required(level = UserLevel.Buyer)
 def logout():
