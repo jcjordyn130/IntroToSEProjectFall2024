@@ -437,5 +437,38 @@ def grabPaymentMethods():
     # Return them
     return responses.build(responses.GenericOK, {"paymentmethods": pms})
 
+@app.route("/item/add", methods = ["POST"])
+@api_key_required(level = UserLevel.Seller)
+def addItem():
+    # Check for params
+    try:
+        data = request.json
+    except BadRequest as e:
+        return errors.exc(errors.InvalidRequest, e)
+
+    # Create item
+    item = Item()
+
+    # Fill in values, these are all required!!!
+    try:
+        item.name = data["name"]
+        item.description = data["description"]
+        item.quantity = int(data["quantity"])
+        if request.key.userlevel == UserLevel.Admin and data.get("seller", None):
+            item.seller = data["seller"]
+        else:
+            item.seller = request.user.id
+        item.approval = False
+    except KeyError as e:
+        return errors.exc(errors.MissingArgument, e)
+    except ValueError as e:
+        return errors.exc(errors.InvalidRequest, e)
+        
+    # Commit to database
+    db.commitItem(item)
+
+    # OK
+    return responses.GenericOK
+
 if __name__ == "__main__":
     app.run(host = "127.0.0.1", port = "5000", debug = True)
