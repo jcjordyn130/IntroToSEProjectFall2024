@@ -12,6 +12,9 @@ class UserLevel(Enum):
     Seller = 1
     Buyer = 2
 
+    def __repr__(self):
+        return f"UserLevel.{self.name}"
+
 class OrderStatus(Enum):
     Unfulfilled = 0
     Fulfilled = 1
