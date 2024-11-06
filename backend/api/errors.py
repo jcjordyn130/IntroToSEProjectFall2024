@@ -8,6 +8,8 @@ AuthorizationRequired = ({"error": "ERRNOTAUTHORIZED", "status": "err"}, 401)
 ResourceAlreadyApproved = ({"error": "ERRRSRCALREADYAPPROVED", "status": "err"}, 400)
 ResourceNotFound = ({"error": "ERRRSRCNOTFOUND", "status": "err"}, 404)
 OutOfItem = ({"error": "ERROUTOFITEM", "status": "err"}, 400) # Used when adding more items to an order than we have
+AlreadyExists = ({"error": "ERRALREADYEXISTS", "status": "err"}, 400)
+MissingArgument = ({"error": "ERRMISSINGARGUMENT", "status": "err"}, 400)
 
 # These are all the standard fields, but other calls may have others.
 # AddItemToOrder, for instance, returns onhandquantity and quantity when a ERROUTOFITEM error occurs
