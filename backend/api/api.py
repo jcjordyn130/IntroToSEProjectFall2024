@@ -249,7 +249,7 @@ def userinfo(username = None):
     
     return jsonify(repr(user))
 
-@app.route("/admin/approveUser/<username>")
+@app.route("/user/<username>/approve")
 @api_key_required(level = UserLevel.Admin)
 def approveUser(username):
     # Lookup user
@@ -262,6 +262,26 @@ def approveUser(username):
         user.approval = True
     else:
         return errors.ResourceAlreadyApproved
+
+    # Update user in database
+    db.updateUser(user)
+
+    # Return goooood
+    return responses.GenericOK
+
+@app.route("/user/<username>/unapprove")
+@api_key_required(level = UserLevel.Admin)
+def unapproveUser(username):
+    # Lookup user
+    user = db.getUser(username = username)
+    if not user:
+        return errors.UserNotFound
+
+    # Set approval
+    if not user.approval:
+        return errors.NotApproved
+    else:
+        user.approval = False
 
     # Update user in database
     db.updateUser(user)
@@ -514,7 +534,7 @@ def deleteItem(id, quantity):
     item = db.getItem(id)
     if not item:
         return errors.ResourceNotFound
-        
+
     # Only admins can remove items that do not belong to them
     # api_key_required checks for the minimum required level of Seller
     if item.seller != request.user.id and request.key.userlevel != UserLevel.Admin:
@@ -532,6 +552,47 @@ def deleteItem(id, quantity):
 
     # OK
     return responses.GenericOK
+
+@app.route("/item/<id>/approve")
+@api_key_required(level = UserLevel.Admin)
+def approveItem(id):
+    # Lookup item
+    item = db.getItem(id)
+    if not item:
+        return errors.ResourceNotFound
+
+    # Set approval
+    if not item.approval:
+        item.approval = True
+    else:
+        return errors.ResourceAlreadyApproved
+
+    # Update item in database
+    db.updateItem(item)
+
+    # Return goooood
+    return responses.GenericOK
+
+@app.route("/item/<id>/unapprove")
+@api_key_required(level = UserLevel.Admin)
+def unapproveItem(id):
+    # Lookup item
+    item = db.getItem(id)
+    if not item:
+        return errors.ResourceNotFound
+
+    # Set approval
+    if item.approval:
+        item.approval = False
+    else:
+        return errors.NotApproved
+
+    # Update item in database
+    db.updateItem(item)
+
+    # Return goooood
+    return responses.GenericOK
+
 
 if __name__ == "__main__":
     app.run(host = "127.0.0.1", port = "5000", debug = True)
