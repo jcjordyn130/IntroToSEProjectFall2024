@@ -6,6 +6,7 @@ To deploy, follow these steps:
 - Clone repository using `git clone https://github.com/jcjordyn130/IntroToSEProjectFall2024`
 - Switch to backend branch using `git checkout backend-dev`
 - Clone the repository AGAIN inside of `backend/deployment`
+- Switch the newly cloned repository to the `backend-dev` branch
 - Bring up the compose stack using your choice of program, for podman, use `podman-compose up`
 - Profit!!!
 
