@@ -10,6 +10,7 @@ ResourceNotFound = ({"error": "ERRRSRCNOTFOUND", "status": "err"}, 404)
 OutOfItem = ({"error": "ERROUTOFITEM", "status": "err"}, 400) # Used when adding more items to an order than we have
 AlreadyExists = ({"error": "ERRALREADYEXISTS", "status": "err"}, 400)
 MissingArgument = ({"error": "ERRMISSINGARGUMENT", "status": "err"}, 400)
+UnknownException = ({"error": "UNKNOWNSERVERERROR", "status": "err"}, 500)
 
 # These are all the standard fields, but other calls may have others.
 # AddItemToOrder, for instance, returns onhandquantity and quantity when a ERROUTOFITEM error occurs
@@ -24,7 +25,11 @@ MissingArgument = ({"error": "ERRMISSINGARGUMENT", "status": "err"}, 400)
 
 """ exc() takes an exception and adds it in the standard format to an error. """
 def exc(resp, exc):
-    data = {"exc":{"msg": str(exc)}}
+    data = {"exc": {
+            "msg": str(exc),
+            "type": repr(exc)
+        }}
+
     return build(resp, data)
 
 """ build() takes an error and adds arbitrary data onto it. """
