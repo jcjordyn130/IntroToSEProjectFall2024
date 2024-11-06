@@ -1,0 +1,8 @@
+version: "2.1"
+services:
+  IntroToSEProject:
+    build: .
+    image: introtoseproject
+    ports:
+      - 5000:5000
+    restart: unless-stopped
