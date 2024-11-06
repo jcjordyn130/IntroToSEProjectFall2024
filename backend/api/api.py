@@ -33,6 +33,15 @@ app = CustomFlask(__name__)
 db = database.Database("db.sqlite3")
 km = keymanager.APIKeyManager(db)
 
+@app.errorhandler(Exception)
+def handle_exc(e):
+    # pass through HTTP exceptions
+    if isinstance(e, HTTPException):
+        return e
+
+    # Otherwise, return them as a JSON error
+    return errors.exc(errors.UnknownException, e)
+
 def api_key_required(level):
     def ad(f):
         @wraps(f)
