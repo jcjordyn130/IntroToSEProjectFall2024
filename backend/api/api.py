@@ -4,7 +4,7 @@ from . import errors, responses, keymanager
 from ..database.dbtypes import *
 from functools import wraps
 import copy
-
+from werkzeug.exceptions import *
 # These are up here instead of by api_key_required even though it makes more sense
 # As it has to be before the app init code.
 class CustomRequest(Request):
@@ -119,6 +119,40 @@ def login(username):
         return responses.build(responses.GenericOK, {"apikey": key.key})
     else:
         return errors.WrongPassword
+
+@app.route("/user/<username>/create", methods = ["POST"])
+def createUser(username):
+    try:
+        data = request.json
+    except BadRequest as e:
+        return errors.exc(errors.InvalidRequest, e)
+
+    # Check for existing user
+    if db.getUser(username = username):
+        return errors.AlreadyExists
+
+    # Check for required details
+    try:
+        data["email"]
+        data["password"]
+        data["userlevel"]
+    except KeyError as e:
+        return errors.build(errors.MissingArgument, {"argument": e.args[0]})
+
+    # Create user
+    user = User()
+    user.username = username
+    user.email = data["email"]
+    user.password = data["password"] # Is hashed by the property value
+    try:
+        user.userlevel = UserLevel(data["userlevel"])
+    except ValueError as e:
+        return errors.exc(errors.InvalidRequest, e)
+
+    # Commit to DB
+    db.commitUser(user)
+
+    return responses.GenericOK
 
 @app.route("/user/logout")
 @api_key_required(level = UserLevel.Buyer)
