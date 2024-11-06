@@ -306,11 +306,17 @@ class Database():
                 order.id
             ))
 
-    def getPaymentMethod(self, id):
+    def getPaymentMethod(self, id = None, cardno = None):
         with self._lock:
             cur = self.cur
             cur.row_factory = PaymentMethodRowFactory
-            cur.execute("SELECT * FROM paymentmethods WHERE id = ?", (id,))
+            if id:
+                cur.execute("SELECT * FROM paymentmethods WHERE id = ?", (id,))
+            elif cardno:
+                cur.execute("SELECT * from paymentmethods WHERE cardno = ?", (cardno,))
+            else:
+                raise ValueError("id and cardno are both None!")
+                
             return cur.fetchone()
 
     def commitPaymentMethod(self, pm):
