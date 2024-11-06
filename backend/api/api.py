@@ -507,5 +507,31 @@ def listItems(seller = None):
 
     return responses.build(responses.GenericOK, {"items": items})
 
+@app.route("/item/<id>/remove/<int:quantity>", methods = ["DELETE"])
+@api_key_required(level = UserLevel.Seller)
+def deleteItem(id, quantity):
+    # Fetch item from database
+    item = db.getItem(id)
+    if not item:
+        return errors.ResourceNotFound
+        
+    # Only admins can remove items that do not belong to them
+    # api_key_required checks for the minimum required level of Seller
+    if item.seller != request.user.id and request.key.userlevel != UserLevel.Admin:
+        return errors.AuthorizationRequired
+
+    # Decrement item
+    item.quantity = item.quantity - quantity
+    if item.quantity <= 0:
+        print(f"Removing item {item} due to quantity falling to zero!")
+        db.removeItem(item)
+        return responses.GenericOK
+    
+    # Commit to DB
+    db.updateItem(item)
+
+    # OK
+    return responses.GenericOK
+
 if __name__ == "__main__":
     app.run(host = "127.0.0.1", port = "5000", debug = True)
