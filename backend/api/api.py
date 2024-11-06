@@ -162,7 +162,7 @@ def createUser(username):
     db.commitUser(user)
 
     return responses.GenericOK
-
+    
 @app.route("/user/logout")
 @api_key_required(level = UserLevel.Buyer)
 def logout():
@@ -478,6 +478,24 @@ def addItem():
 
     # OK
     return responses.GenericOK
+
+@app.route("/item/list/<seller>", methods = ["GET"])
+@app.route("/item/list", methods = ["GET"])
+@api_key_required(level = UserLevel.Buyer)
+def listItems(seller = None):
+    # Grab seller user
+    # If we aren't given a seller, list our items
+    if seller:
+        user = db.getUser(username = seller)
+    else:
+        user = request.user
+    if not user:
+        return errors.UserNotFound
+
+    # Grab items
+    items = db.getItemsBySeller(user.id)
+
+    return responses.build(responses.GenericOK, {"items": items})
 
 if __name__ == "__main__":
     app.run(host = "127.0.0.1", port = "5000", debug = True)
