@@ -96,6 +96,13 @@ class Database():
 
             return cur.fetchone()
 
+    def getAllUsers(self):
+        with self._lock:
+            cur = self.cur
+            cur.row_factory = UserRowFactory
+            cur.execute("SELECT * FROM users")
+            return cur.fetchall()
+            
     def commitUser(self, user):
         print(f"Commiting user {user} to database!")
 
@@ -144,7 +151,7 @@ class Database():
             cur.row_factory = ItemRowFactory
             cur.execute("SELECT * FROM items")
             return cur.fetchall()
-            
+
     def getItemsBySeller(self, seller):
         # Check for seller's user account
         if not self.getUser(id = seller):
