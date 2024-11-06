@@ -3,6 +3,7 @@ from enum import Enum
 import uuid
 import bcrypt
 import copy
+import json_fix
 
 # Normally this is not a secure method of saving passwords.
 __bcrypt_salt__ = b'$2b$16$2npL2FY08B03FPETzV0tse'
@@ -95,6 +96,9 @@ class PaymentMethod():
     
     def __init__(self):
         self.id = uuid.uuid4().hex
+
+    def __json__(self):
+        return self.__dict__
 
     def __repr__(self):
         # I don't print cardno/exp/cvv as it's sensitive information.
