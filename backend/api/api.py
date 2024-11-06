@@ -415,5 +415,18 @@ def createPaymentMethod(name):
     # OK
     return responses.GenericOK
 
+@app.route("/payment/<id>/remove", methods = ["DELETE"])
+@api_key_required(level = UserLevel.Buyer)
+def removePaymentMethod(id):
+    # Grab payment method to make sure it exists
+    if not db.getPaymentMethod(id = id):
+        return errors.ResourceNotFound
+
+    # Remove it
+    db.removePaymentMethod(id)
+    
+    # Return OK
+    return responses.GenericOK
+
 if __name__ == "__main__":
     app.run(host = "127.0.0.1", port = "5000", debug = True)
