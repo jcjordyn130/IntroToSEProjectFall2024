@@ -1,3 +1,4 @@
 flask==3.0.3
 faker==30.8.1 # for gendummydb.py
 bcrypt==4.2.0 # for password hashing
+json-fix==0.5.1 # for JSONifing custom types
