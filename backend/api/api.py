@@ -168,6 +168,49 @@ def killkeys():
     km.removeAllUserKeys(key.username)
     return responses.GenericOK
 
+@app.route("/user/modify/<username>", methods = ["PATCH"])
+@app.route("/user/modify", methods = ["PATCH"])
+@api_key_required(level = UserLevel.Buyer)
+def modifyUser(username = None):
+    # Check for admin privs if we were given a username that is not ourselves.
+    if username and username != request.user.username:
+        # Don't let nonadmins modify other users
+        if request.key.userlevel != UserLevel.Admin:
+            return errors.ResourceNotFound
+    else:
+        username = request.key.username
+
+    # Check for user
+    user = db.getUser(username = username)
+    if not user:
+        return errors.ResourceNotFound
+
+    # Check for params
+    try:
+        data = request.json
+    except BadRequest as e:
+        return errors.exc(errors.InvalidRequest, e)
+
+    # Set params
+    if data.get("email", None):
+        user.email = data["email"]
+
+    if data.get("password", None):
+        user.password = data["password"]
+
+    if data.get("userlevel", None):
+        # Only allow UserLevel modification by admins
+        if request.key.userlevel == UserLevel.Admin:
+            user.userlevel = UserLevel(data["userlevel"])    
+        else:
+            return errors.AuthorizationRequired
+
+    # Commit to DB
+    db.updateUser(user)
+
+    # Return OK
+    return responses.GenericOK
+
 @app.route("/user/info/<username>")
 @app.route("/user/info")
 @api_key_required(level = UserLevel.Buyer)
