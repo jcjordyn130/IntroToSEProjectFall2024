@@ -138,6 +138,13 @@ class Database():
             cur.execute("SELECT * FROM items WHERE id = ?", (id,))
             return cur.fetchone()
 
+    def getItems(self):
+        with self._lock:
+            cur = self.cur
+            cur.row_factory = ItemRowFactory
+            cur.execute("SELECT * FROM items")
+            return cur.fetchall()
+            
     def getItemsBySeller(self, seller):
         # Check for seller's user account
         if not self.getUser(id = seller):
