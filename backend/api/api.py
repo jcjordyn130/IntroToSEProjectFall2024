@@ -183,8 +183,7 @@ def logout():
 @app.route("/user/logouteverywhere")
 @api_key_required(level = UserLevel.Buyer)
 def killkeys():
-    key = km.get(request.authorization.token)
-    km.removeAllUserKeys(key.username)
+    km.removeAllUserKeys(request.key.username)
     return responses.GenericOK
 
 @app.route("/user/modify/<username>", methods = ["PATCH"])
@@ -234,19 +233,17 @@ def modifyUser(username = None):
 @app.route("/user/info")
 @api_key_required(level = UserLevel.Buyer)
 def userinfo(username = None):
-    key = km.get(request.authorization.token)
-
     # If we have a explicit username, check for admin privs first.
     if username:
-        if key.userlevel != UserLevel.Admin:
+        if request.key.userlevel != UserLevel.Admin:
             return errors.ResourceNotFound
+        else:
+            user = db.getUser(username)
+            if not user:
+                return errors.ResourceNotFound
     else:
-        username = key.username
+        user = request.user
 
-    user = db.getUser(username = username)
-    if not user:
-        return errors.ResourceNotFound
-    
     return jsonify(repr(user))
 
 @app.route("/user/<username>/approve")
@@ -292,39 +289,27 @@ def unapproveUser(username):
 @app.route("/order/create", methods = ["POST"])
 @api_key_required(level = UserLevel.Buyer)
 def createOrder():
-    # Grab key so we can get the username
-    key = km.get(request.authorization.token)
-
-    # Grab user so we can get the ID
-    user = db.getUser(username = key.username)
-
     # Create Order() and fill in data
     order = Order()
     order.orderstatus = OrderStatus.Unfulfilled
-    order.user = user.id
+    order.user = request.user.id
 
     # Commit to DB
     db.commitOrder(order)
 
     # Return ID
-    return responses.build(responses.GenericOK, {"id": order.id, "username": key.username, "status": order.orderstatus.value})
+    return responses.build(responses.GenericOK, {"id": order.id, "username": request.key.username, "status": order.orderstatus.value})
 
 @app.route("/order/<id>/delete", methods = ["DELETE"])
 @api_key_required(level = UserLevel.Buyer)
 def deleteOrder(id):
-    # Grab key so we can get the username
-    key = km.get(request.authorization.token)
-
-    # Grab user so we can get the ID
-    user = db.getUser(username = key.username)
-
     # Grab order from DB
     order = db.getOrder(id)
     if not order:
         return errors.ResourceNotFound
 
     # Return not found if user is not an admin and order is does not belong to them.
-    if order.user != user.id and user.userlevel != UserLevel.Admin:
+    if order.user != request.user.id and request.user.userlevel != UserLevel.Admin:
         print(f"Non-admin user {user} attempted to delete order {order}!")
         return errors.ResourceNotFound
 
@@ -337,19 +322,13 @@ def deleteOrder(id):
 @app.route("/order/<id>/add/<itemid>/<int:quantity>", methods = ["POST"])
 @api_key_required(level = UserLevel.Buyer)
 def addItemsToOrder(id, itemid, quantity):
-    # Grab key so we can get the username
-    key = km.get(request.authorization.token)
-
-    # Grab user so we can get the ID
-    user = db.getUser(username = key.username)
-
     # Grab order from DB
     order = db.getOrder(id)
     if not order:
         return errors.ResourceNotFound
 
     # Return not found if user is not an admin and order is does not belong to them.
-    if order.user != user.id and user.userlevel != UserLevel.Admin:
+    if order.user != request.user.id and request.user.userlevel != UserLevel.Admin:
         print(f"Non-admin user {user} attempted to manage order {order}!")
         return errors.ResourceNotFound
 
