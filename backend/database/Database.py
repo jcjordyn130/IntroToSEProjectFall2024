@@ -316,8 +316,19 @@ class Database():
                 cur.execute("SELECT * from paymentmethods WHERE cardno = ?", (cardno,))
             else:
                 raise ValueError("id and cardno are both None!")
-                
+
             return cur.fetchone()
+
+    def getPaymentMethodsByUser(self, user):
+        with self._lock:
+            cur = self.cur
+            cur.row_factory = PaymentMethodRowFactory
+            cur.execute("SELECT * FROM paymentmethods WHERE user = ?", (user, ))
+            return cur.fetchall()
+
+    def removePaymentMethod(self, id):
+        with self._lock:
+            self.cur.execute("DELETE FROM paymentmethods WHERE id = ?", (id,))
 
     def commitPaymentMethod(self, pm):
         print(f"Commiting payment method {pm} to database!")
