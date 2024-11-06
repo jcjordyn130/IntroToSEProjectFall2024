@@ -4,20 +4,21 @@ import faker
 import bcrypt
 
 numberofitems = 16384
-# happytree499
-fakeuserpw = "bluebird871"
+#fakeuserpw = "bluebird871"
+testadminuser = "testing"
+fakeuserpw = "password"
 
 """ gendummydatabase.dbtypes.py is a script to generate a dummy testing database for the project.
 It uses mostly predetermined item names/descriptions while outsouring to the Faker library
 for payment information. """
 
 def generate_random_username():
-    adjectives = ["happy", "blue", "clever", "swift", "fierce"]
-    nouns = ["cat", "dog", "bird", "tree", "river"]
+    adjectives = ["happy", "blue", "clever", "swift", "fierce", "terminal", "insane", "clover", "smol"]
+    nouns = ["cat", "dog", "bird", "tree", "river", "boi", "birb", "bird", "peep"]
     
     adjective = random.choice(adjectives)
     noun = random.choice(nouns)
-    number = random.randint(100, 999)
+    number = random.randint(0, 1000000)
     
     username = f"{adjective}{noun}{number}"
     return username
@@ -55,6 +56,8 @@ itemdescs = [
 ]
 
 users = []
+admins = []
+sellers = []
 dbase = database.Database("db.sqlite3")
 
 # Generate users
@@ -62,20 +65,33 @@ dbase = database.Database("db.sqlite3")
 # This isn't secure but is useful for testing.
 hash = bcrypt.hashpw(fakeuserpw.encode(), database.dbtypes.__bcrypt_salt__)
 
+# Add in first user
+user = database.dbtypes.User()
+user.username = testadminuser
+user.email = f"{generate_random_username()}@gmail.com"
+user.__password__ = hash
+user.userlevel = database.dbtypes.UserLevel(1)
+user.approval = True
+dbase.commitUser(user)
+admins.append(user)
+
+# Add in random users
 for i in range(0, numberofitems):
     while True:
         user = database.dbtypes.User()
         user.username = generate_random_username()
         user.email = f"{generate_random_username()}@gmail.com"
-        if i == 0:
+        user.approval = bool(random.randint(0, 1))
+        if i in [0, 1, 2, 3, 4]:
             # We need at *least* one admin
             user.userlevel = database.dbtypes.UserLevel.Admin
-        elif i == 1:
+            user.approval = True
+        elif i in [5, 6, 7, 8, 9]:
             # Makes the following code easier
             user.userlevel = database.dbtypes.UserLevel.Seller
+            user.approval = True
         else:
-            user.userlevel = database.dbtypes.UserLevel(random.randint(0, 2))
-        user.approval = bool(random.randint(0, 1))
+            user.userlevel = database.dbtypes.UserLevel(random.randint(1, 3))
         user.__password__ = hash # Setting the backing store because we already have a hashed password
         try:
             dbase.commitUser(user)
@@ -83,6 +99,10 @@ for i in range(0, numberofitems):
             print("Value collision... using another user for this iteration")
             continue
         users.append(user)
+        if user.userlevel == database.dbtypes.UserLevel.Admin:
+            admins.append(user)
+        elif user.userlevel == database.dbtypes.UserLevel.Seller:
+            sellers.append(user)
         break
 
 # Generate Items
@@ -91,9 +111,11 @@ for i in range(0, numberofitems):
     n = random.randint(0, len(itemnames) - 1)
     item.name = itemnames[n]
     item.description = itemdescs[n]
-    item.quantity = random.randint(0, 12345)
-    item.seller = users[1].id
-    item.approval = random.randint(0, 1)
+    item.quantity = random.randint(0, 1776)
+    item.seller = random.choice(sellers + admins).id
+    # First 100 items are auto approved, good luck
+    if i >= 100:
+        item.approval = random.randint(0, 1)
     dbase.commitItem(item)
 
 # Generate payment methods
