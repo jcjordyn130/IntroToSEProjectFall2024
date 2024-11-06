@@ -428,5 +428,14 @@ def removePaymentMethod(id):
     # Return OK
     return responses.GenericOK
 
+@app.route("/payment/list", methods = ["GET"])
+@api_key_required(level = UserLevel.Buyer)
+def grabPaymentMethods():
+    # Grab payment methods
+    pms = db.getPaymentMethodsByUser(user = request.user.id)
+
+    # Return them
+    return responses.build(responses.GenericOK, {"paymentmethods": pms})
+
 if __name__ == "__main__":
     app.run(host = "127.0.0.1", port = "5000", debug = True)
