@@ -374,5 +374,46 @@ def grabOrderInfo(id):
     "status": order.orderstatus.value,
     "items": formatteditems})
 
+@app.route("/payment/<name>/create", methods = ["POST"])
+@api_key_required(level = UserLevel.Buyer)
+def createPaymentMethod(name):
+    # Create skeleton payment method
+    pm = PaymentMethod()
+    pm.user = request.user.id
+    pm.name = name
+
+    # Check for params
+    try:
+        data = request.json
+    except BadRequest as e:
+        return errors.exc(errors.InvalidRequest, e)
+
+    # Set params
+    try:
+        # Validate params
+        if len(data["cardcvv"]) > 4:
+            return errors.build(errors.InvalidRequest, {"msg": "cardcvv len > 4"})
+
+        if len(data["cardno"]) > 19:
+            # NOTE: 19 max card length may change! See https://en.wikipedia.org/wiki/Payment_card_number
+            return errors.build(errors.InvalidRequest, {"msg": "cardno len > 19"})
+
+        pm.cardno = data["cardno"]
+        pm.cardexp = data["cardexp"]
+        pm.cardcvv = data["cardcvv"]
+        pm.billingaddress = data["billingaddress"]
+    except KeyError as e:
+        return errors.exc(errors.MissingArgument, e)
+
+    # Check for existing payment method
+    if db.getPaymentMethod(cardno = data["cardno"]):
+        return errors.AlreadyExists
+
+    # Commit to DB
+    db.commitPaymentMethod(pm)
+
+    # OK
+    return responses.GenericOK
+
 if __name__ == "__main__":
     app.run(host = "127.0.0.1", port = "5000", debug = True)
