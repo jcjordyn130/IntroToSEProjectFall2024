@@ -115,5 +115,8 @@ class Item():
     def __init__(self):
         self.id = uuid.uuid4().hex
 
+    def __json__(self):
+        return self.__dict__
+        
     def __repr__(self):
         return f"<ID: {self.id}, name: {self.name}, quantity: {self.quantity}>"
