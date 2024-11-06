@@ -528,8 +528,9 @@ def listItems(seller = None):
     return responses.build(responses.GenericOK, {"items": items})
 
 @app.route("/item/<id>/remove/<int:quantity>", methods = ["DELETE"])
+@app.route("/item/<id>/remove", methods = ["DELETE"])
 @api_key_required(level = UserLevel.Seller)
-def deleteItem(id, quantity):
+def deleteItem(id, quantity = None):
     # Fetch item from database
     item = db.getItem(id)
     if not item:
@@ -541,9 +542,14 @@ def deleteItem(id, quantity):
         return errors.AuthorizationRequired
 
     # Decrement item
-    item.quantity = item.quantity - quantity
-    if item.quantity <= 0:
-        print(f"Removing item {item} due to quantity falling to zero!")
+    if quantity:
+        item.quantity = item.quantity - quantity
+        if item.quantity <= 0:
+            print(f"Removing item {item} due to quantity falling to zero!")
+            db.removeItem(item)
+            return responses.GenericOK
+    else:
+        print(f"Removing item {item} due to no quantity given!")
         db.removeItem(item)
         return responses.GenericOK
     
