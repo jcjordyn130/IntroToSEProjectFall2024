@@ -37,11 +37,11 @@ class Database():
     def initDB(self):
         print("Creating database tables...")
         with self._lock:
-            self.cur.execute("CREATE TABLE IF NOT EXISTS users(id TEXT PRIMARY KEY, username TEXT UNIQUE, password TEXT NOT NULL, email TEXT UNIQUE, userlevel INTEGER, approval INTEGER)")
-            self.cur.execute("CREATE TABLE IF NOT EXISTS orders(id TEXT PRIMARY KEY, user TEXT, orderstatus INTEGER)")
-            self.cur.execute("CREATE TABLE IF NOT EXISTS orderitems(id TEXT, orderid TEXT, item TEXT, quantity INTEGER)")
+            self.cur.execute("CREATE TABLE IF NOT EXISTS users(id TEXT PRIMARY KEY, username TEXT UNIQUE, password TEXT NOT NULL, email TEXT UNIQUE, userlevel INTEGER CHECK (userlevel >= 1 AND userlevel <= 3), approval INTEGER CHECK (approval == 0 OR approval == 1))")
+            self.cur.execute("CREATE TABLE IF NOT EXISTS orders(id TEXT PRIMARY KEY, user TEXT, orderstatus INTEGER CHECK (orderstatus >= 1 AND orderstatus <= 4))")
+            self.cur.execute("CREATE TABLE IF NOT EXISTS orderitems(id TEXT, orderid TEXT, item TEXT, quantity INTEGER CHECK(quantity >= 0))")
             self.cur.execute("CREATE TABLE IF NOT EXISTS paymentmethods(id TEXT PRIMARY KEY, user TEXT, name STRING, cardno INTEGER UNIQUE, cardexp TEXT, cardcvv TEXT, billingaddress TEXT)")
-            self.cur.execute("CREATE TABLE IF NOT EXISTS items(id TEXT PRIMARY KEY, name TEXT, description TEXT, quantity INTEGER, seller TEXT, approval INTEGER)")
+            self.cur.execute("CREATE TABLE IF NOT EXISTS items(id TEXT PRIMARY KEY, name TEXT, description TEXT, quantity INTEGER CHECK(quantity >= 0), seller TEXT, approval INTEGER CHECK (approval == 0 OR approval == 1))")
     
     def countUsers(self):
         with self._lock:
