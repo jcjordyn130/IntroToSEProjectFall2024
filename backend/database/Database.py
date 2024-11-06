@@ -200,6 +200,19 @@ class Database():
                 item.id
             ))
 
+    def removeItem(self, item):
+        # Check for seller's user account
+        if not self.getUser(id = item.seller):
+            raise ValueError(f"Seller ID on item {item} does not exist!")
+
+        # check for existing item
+        if not self.getItem(id = item.id):
+            raise ValueError(f"Item ID on item {item} does not exist!")
+
+        # delete blahaj
+        with self._lock:
+            self.cur.execute("DELETE FROM items WHERE id = ?", (item.id,))
+
     def getOrder(self, id):
         with self._lock:
             cur = self.cur
