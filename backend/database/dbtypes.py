@@ -8,18 +8,18 @@ import copy
 __bcrypt_salt__ = b'$2b$16$2npL2FY08B03FPETzV0tse'
 
 class UserLevel(Enum):
-    Admin = 0
-    Seller = 1
-    Buyer = 2
+    Admin = 1
+    Seller = 2
+    Buyer = 3
 
     def __repr__(self):
         return f"UserLevel.{self.name}"
 
 class OrderStatus(Enum):
-    Unfulfilled = 0
-    Fulfilled = 1
-    Shipped = 2
-    Arrived = 3
+    Unfulfilled = 1
+    Fulfilled = 2
+    Shipped = 3
+    Arrived = 4
 
 class User():
     id = None
