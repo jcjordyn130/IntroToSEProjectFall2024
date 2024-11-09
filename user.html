@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="storestyle.css"/>
+    <title>User Information</title>
+  </head>
+  <body>
+    <header>
+      <!-- <img src="logo.png" alt="logo" style="width:100px;height:100px"/> -->
+      <h1>IntroToSEProjectFall2024</h1>
+      <form> <!-- action="script" -->
+        <label for="findproduct">Search for Product:</label>
+        <input type="search" id="findproduct" name="findproduct"/>
+        <input type="submit" value="Search"/>
+      </form> <!-- Searching Functionality -->
+      <form> <!-- action="script" -->
+        <label for="account">Log into Account:</label>
+        <input type="submit" value="Log In"/>
+      </form> <!-- Login and logout Form -->
+      <!-- We should obviously change this form if the user is logged in. -->
+       <title>User Profile</title>
+    </header>
+    <h1 id="username">(Admin Only)</h1>
+    <a href="userlist.html">Back to User List</a>
+    <div id="userinfo">
+        <p><emph>Not Authorized to View</emph></p>
+    </div> <!-- Change contents of list if user is logged in as Admin -->
+    <script src="user.js"></script>
+    <footer>
+      <p>
+        IntroToSEProjectFall2024: Canvas Group 4
+      </p>
+	    <a href="https://github.com/jcjordyn130/IntroToSEProjectFall2024/blob/4513996c46364c84f99b1a430f1a4fdfa0fbe293/LICENSE">BSD 3-Clause License</a>
+    </footer>
+  </body>
+</html>
