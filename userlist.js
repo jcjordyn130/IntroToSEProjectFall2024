@@ -3,22 +3,24 @@ var userListElement = document.getElementById("user-list");
 
 if (userListElement) {
     try {
-        const apiResponse = await fetch(relativeUrl);
+        const apiResponse = fetch(relativeUrl); // removed `await`
         if (!apiResponse.ok) {
             throw new Error(`${relativeUrl} returned status ${apiResponse.status}`);
         }
         // =====
-        userListText = "";
+        var userListText = "";
         for (let user of apiResponse) {
-            userListText += `<h1>User <i>${user.username}</i></h1>\n`;
-            userListText += "<ul>\n";
+            userListText = "<ul>\n";
             userListText += `<li>ID: ${user.id}</li>\n`;
             userListText += `<li>Email: ${user.email}</li>\n`;
             userListText += `<li>Level: ${user.userlevel}</li>\n`;
             userListText += "</ul>\n\n";
-            // TODO: Add functionality to approve and unapprove.
+            // =====
+            const userParams = new URLSearchParams();
+            userParams.append("username", user.username);
+            userListText += `<a href="user.html?${userParams.toString()}"></a>`
         }
-        userListElement.innerText = userListText;
+        userListElement.innerHTML = userListText;
     }
     catch (e) {
         console.error(e.message);
