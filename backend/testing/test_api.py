@@ -141,7 +141,7 @@ def test_self_user_info(setup_api):
 def test_other_user_info_noperm(setup_api):
     key = login(gtd.fakeusernames["buyer"], gtd.fakepassword)
     auth = BearerAuth(key)
-    resp = requests.get(f"{serverurl}/user/info/{gtd.fakeusernames["seller"]}", auth = auth)
+    resp = requests.get(f"{serverurl}/user/info/{gtd.fakeusernames['seller']}", auth = auth)
     assert_err(resp, errors.ResourceNotFound)
 
 def test_other_user_info_nonexistant(setup_api):
