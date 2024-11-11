@@ -30,11 +30,22 @@ class CustomFlask(Flask):
     request_class = CustomRequest
 
 app = CustomFlask(__name__)
-db = database.Database("db.sqlite3")
-km = keymanager.APIKeyManager(db)
+#db = database.Database("db.sqlite3")
+#km = keymanager.APIKeyManager(db)
+
+def run(dbfile, *args, **kwargs):
+    global db
+    global km
+
+    print(f"Using file {dbfile} for database!")
+    db = database.Database(dbfile)
+    km = keymanager.APIKeyManager(db)
+
+    app.run(*args, **kwargs)
 
 @app.errorhandler(Exception)
 def handle_exc(e):
+    return e
     # pass through HTTP exceptions
     if isinstance(e, HTTPException):
         return e
@@ -238,13 +249,16 @@ def userinfo(username = None):
         if request.key.userlevel != UserLevel.Admin:
             return errors.ResourceNotFound
         else:
-            user = db.getUser(username)
+            user = db.getUser(username = username)
             if not user:
                 return errors.ResourceNotFound
     else:
         user = request.user
 
-    return jsonify(repr(user))
+    return responses.build(responses.GenericOK, {"users": [user]})
+    #return jsonify(user)
+    #return jsonify(repr(user))
+    #return responses.build(responses.GenericOK, user)
 
 @app.route("/user/<username>/approve")
 @api_key_required(level = UserLevel.Admin)
@@ -298,7 +312,7 @@ def createOrder():
     db.commitOrder(order)
 
     # Return ID
-    return responses.build(responses.GenericOK, {"id": order.id, "username": request.key.username, "status": order.orderstatus.value})
+    return responses.build(responses.GenericOK, {"id": order.id, "username": request.key.username, "orderstatus": order.orderstatus.value})
 
 @app.route("/order/<id>/delete", methods = ["DELETE"])
 @api_key_required(level = UserLevel.Buyer)
@@ -389,7 +403,7 @@ def grabOrderInfo(id):
     # return info
     return responses.build(responses.GenericOK, {"id": order.id,
     "user": order.user,
-    "status": order.orderstatus.value,
+    "orderstatus": order.orderstatus.value,
     "items": formatteditems})
 
 @app.route("/payment/<name>/create", methods = ["POST"])
