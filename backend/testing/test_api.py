@@ -33,9 +33,11 @@ def setup_api(tmp_path_factory):
     yield dbfile
 
 def assert_err(resp, error):
+    # This is first because the error will be more useful than just
+    # the generic status code.
+    assert resp.json()["error"] == error[0]["error"]
     assert resp.status_code == error[1]
     assert resp.json()["status"] == error[0]["status"]
-    assert resp.json()["error"] == error[0]["error"]
 
 def assert_ok(httpresp, apiresp):
     assert httpresp.status_code == apiresp[1]
