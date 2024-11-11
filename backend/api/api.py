@@ -45,7 +45,6 @@ def run(dbfile, *args, **kwargs):
 
 @app.errorhandler(Exception)
 def handle_exc(e):
-    return e
     # pass through HTTP exceptions
     if isinstance(e, HTTPException):
         return e
