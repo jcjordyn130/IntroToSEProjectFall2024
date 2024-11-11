@@ -48,6 +48,12 @@ class User():
     def __str__(self):
         return f"<{self.id}: {self.userlevel.name}, username = {self.username}, has password? = {self.password is not None}, mail = {self.email}, approved: {self.approval}>"
 
+    def __json__(self):
+        safedict = copy.copy(self.__dict__)
+        safedict.pop("__password__")
+        safedict["userlevel"] = safedict["userlevel"].value
+        return safedict
+        
     def __repr__(self):
         # We use __repr__ to easily convert the class into a dict for the API
         # without having to reference easy variable.
