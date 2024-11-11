@@ -323,7 +323,7 @@ def deleteOrder(id):
 
     # Return not found if user is not an admin and order is does not belong to them.
     if order.user != request.user.id and request.user.userlevel != UserLevel.Admin:
-        print(f"Non-admin user {user} attempted to delete order {order}!")
+        print(f"Non-admin user {request.user} attempted to delete order {order}!")
         return errors.ResourceNotFound
 
     # Delete it
