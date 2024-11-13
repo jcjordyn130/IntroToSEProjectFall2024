@@ -1,0 +1,59 @@
+body {
+    background-color: rgb(230, 230, 250);
+    font-family: Helvetica, sans-serif;
+}
+
+input {
+    background-color: white;
+    font-family: "Courier New", monospace;
+    /* box-sizing: border-box; */
+    padding: 4px;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+header {
+    background-color: rgb(240, 240, 240);
+    padding: 4px;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+footer {
+    background-color: rgb(240, 240, 240);
+    padding: 4px;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+.item {
+    border-style: solid;
+    width: 50%;
+    background-color: rgb(240, 240, 240);
+    padding: 4px;
+    border: 2px solid black;
+    border-radius: 4px;
+    margin: 4px;
+    overflow: auto;
+}
+.price {
+    text-align: right;
+    width: 20%;
+    background-color: rgb(240, 240, 240);
+    padding: 4px;
+    margin: 4px;
+    border: 2px solid black;
+    border-radius: 4px;
+    float: right;    
+}
+
+.middle-section {
+    padding-bottom: 10px;
+    overflow: auto;
+
+}
+
+.order-button {
+    width: 50%;
+    text-align: right;
+}
