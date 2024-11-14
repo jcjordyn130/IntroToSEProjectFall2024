@@ -3,13 +3,14 @@ var userListElement = document.getElementById("user-list");
 
 if (userListElement) {
     try {
-        const apiResponse = fetch(relativeUrl); // removed `await`
+        const apiResponse = fetch(relativeUrl);
         if (!apiResponse.ok) {
             throw new Error(`${relativeUrl} returned status ${apiResponse.status}`);
         }
         // =====
         var userListText = "";
-        for (let user of apiResponse) {
+        let data = apiResponse.json();
+        for (let user of data) {
             userListText = "<ul>\n";
             userListText += `<li>ID: ${user.id}</li>\n`;
             userListText += `<li>Email: ${user.email}</li>\n`;

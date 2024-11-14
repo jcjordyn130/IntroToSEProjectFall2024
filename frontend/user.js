@@ -56,20 +56,20 @@ function unapproveUser() {
     }
 }
 
-if (usernameElement)
-    usernameElement.innerText = username;
-
 if (username && userInfoElement) {
+    if (usernameElement)
+        usernameElement.innerText = username;    
     try {
         const relativeUrl = "/user/info/" + username;
         const apiResponse = fetch(relativeUrl);
         if (!apiResponse.ok)
             throw new Error(`${relativeUrl} returned status ${apiResponse.status}`);
         // =====
+        let data = apiResponse.json();
         var userInfoText = "<ul>\n";
-        userInfoText += `<li>ID: ${apiResponse.id}</li>\n`;
-        userInfoText += `<li>Email: ${apiResponse.email}</li>\n`;
-        userInfoText += `<li>Level: ${apiResponse.userlevel}</li>\n`;
+        userInfoText += `<li>ID: ${data.id}</li>\n`;
+        userInfoText += `<li>Email: ${data.email}</li>\n`;
+        userInfoText += `<li>Level: ${data.userlevel}</li>\n`;
         userInfoText += "</ul>\n\n";
         userInfoText += `<button id="button1" onclick="approveUser()">Approved?</button>\n`;
         userInfoText += `<button id="button2" onclick="unapproveUser()">Unapproved?</button>\n\n`;
