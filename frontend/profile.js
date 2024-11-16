@@ -20,24 +20,24 @@ var approvedElement = null;
 approvedElement = document.getElementById("approved"); // initializing HTML elements
 
 if (username) {
-    try {
-        const relativeUrl = "user/info/" + username;
-        const apiResponse = fetch(relativeUrl);
-        if (!apiResponse.ok)
-            throw new Error(`${relativeUrl} returned status ${apiResponse.status}`);
-        let data = apiResponse.json;
-        if (usernameElement)
-            usernameElement.innerHTML = data.username;
-        if (apiIdElement)
-            apiIdElement.innerHTML = `ID: ${data.id}`;
-        if (emailElement)
-            emailElement.innerHTML = `Email: ${data.email}`;
-        if (userLevelElement)
-            userLevelElement.innerHTML = `User Level: ${data.userlevel}`;
-        if (approvedElement)
-            approvedElement.innerHTML = `Approved: ${data.approval}`;
-    }
-    catch (e) {
-        console.error(e.message);
-    }
+    const apiResponse = fetch("user/info/" + username).then(
+        response => {
+            let data = response.json();
+            if (usernameElement)
+                usernameElement.innerText = data.username;
+            if (apiIdElement)
+                apiIdElement.innerText = `ID: ${data.id}`;
+            if (emailElement)
+                emailElement.innerText = `Email: ${data.email}`;
+            if (userLevelElement)
+                userLevelElement.innerText = `User Level: ${data.userlevel}`;
+            if (approvedElement)
+                approvedElement.innerText = `Approved: ${data.approval}`;
+        }
+    )
+        .catch(
+            (e) => {
+                console.error(e.message);
+            }
+        );
 }
