@@ -17,7 +17,7 @@ function RemovePaymentMethod(id) {
         (e) => {
             console.log(e.message);
         }
-    )
+    );
 }
 
 function GeneratePaymentMethods() {
