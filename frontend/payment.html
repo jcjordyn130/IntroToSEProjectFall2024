@@ -28,10 +28,23 @@
       </div>
       <script src="logout.js"></script>
     </header>
-    <p>
-      <emph> Put payment information and fields here.</emph>
+
+    <p id="auth-message">
+      <emph>Not Authorized</emph>
     </p>
+
+    <div id="payment-create-div" style="display:none">
+      <!--<form id="payment-create-form" action="CreatePaymentMethod()">
+        <input type="text" id=""
+      </form>-->
+    </div>
+    <div id="payment-info-div" style="display:none">
+      <h1>Payment Options</h1>
+      <!-- Payment Options Go Here -->
+    </div>
+    
     <script src="payment.js"></script>
+    
     <footer>
       <p>
         IntroToSEProjectFall2024: Canvas Group 4

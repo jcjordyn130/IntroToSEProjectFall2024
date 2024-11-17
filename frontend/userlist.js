@@ -6,7 +6,7 @@ if (userListElement) {
         .then(
             response => {
                 var userListText = "";
-                let data = response.json();
+                let data = response.json().users;
                 for (let user of data) {
                     userListText = "<ul>\n";
                     userListText += `<li>ID: ${user.id}</li>\n`;
