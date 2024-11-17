@@ -1,3 +1,6 @@
+const absoluteUrl = "http://dankpadserver.jordynsblog.org:5000";
+//const absoluteUrl = ".";
+
 var username = null;
 for (const [k, v] of URLSearchParams()) {
     if (k == "username")
@@ -20,21 +23,22 @@ var approvedElement = null;
 approvedElement = document.getElementById("approved"); // initializing HTML elements
 
 if (username) {
-    const apiResponse = fetch("user/info/" + username).then(
-        response => {
-            let data = response.json();
-            if (usernameElement)
-                usernameElement.innerText = data.username;
-            if (apiIdElement)
-                apiIdElement.innerText = `ID: ${data.id}`;
-            if (emailElement)
-                emailElement.innerText = `Email: ${data.email}`;
-            if (userLevelElement)
-                userLevelElement.innerText = `User Level: ${data.userlevel}`;
-            if (approvedElement)
-                approvedElement.innerText = `Approved: ${data.approval}`;
-        }
-    )
+    const apiResponse = fetch(absoulteUrl + "/user/info/" + username)
+        .then(
+            response => {
+                let data = response.json();
+                if (usernameElement)
+                    usernameElement.innerText = data.username;
+                if (apiIdElement)
+                    apiIdElement.innerText = `ID: ${data.id}`;
+                if (emailElement)
+                    emailElement.innerText = `Email: ${data.email}`;
+                if (userLevelElement)
+                    userLevelElement.innerText = `User Level: ${data.userlevel}`;
+                if (approvedElement)
+                    approvedElement.innerText = `Approved: ${data.approval}`;
+            }
+        )
         .catch(
             (e) => {
                 console.error(e.message);

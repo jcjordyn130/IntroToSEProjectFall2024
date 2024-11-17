@@ -1,6 +1,8 @@
+const absoluteUrl = "http://dankpadserver.jordynsblog.org:5000";
+//const absoluteUrl = ".";
 var userListElement = document.getElementById("user-list");
 if (userListElement) {
-    fetch("/user/list")
+    fetch(absoluteUrl + "/user/list")
         .then(
             response => {
                 var userListText = "";

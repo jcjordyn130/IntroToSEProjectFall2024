@@ -1,3 +1,6 @@
+const absoluteUrl = "http://dankpadserver.jordynsblog.org:5000";
+//const absoluteUrl = ".";
+
 function userAlreadyApproved() {
     console.log("User Approval Already Set");
 }
@@ -5,7 +8,7 @@ function userAlreadyApproved() {
 function approveUser() {
     if (!username || !userInfoElement)
         return;
-    fetch("/user/" + username + "/approve")
+    fetch(absoluteUrl + "/user/" + username + "/approve")
         .then(
             response => {
                 buttonElement1.onclick = "userAlreadyApproved()";
@@ -23,7 +26,7 @@ function approveUser() {
 function unapproveuser() {
     if (!username || !userInfoElement)
         return;
-    fetch("/user/" + username + "/unapprove")
+    fetch(absoluteUrl + "/user/" + username + "/unapprove")
         .then(
             response => {
                 buttonElement1.style.display = "none";
@@ -44,8 +47,7 @@ function UserApproveForm() {
 
     if (usernameElement)
         usernameElement.innerText = username;
-    const relativeUrl = "/user/info/" + username;
-    const apiResponse = fetch(relativeUrl)
+    fetch(absoluteUrl + "/user/info/" + username)
         .then(
             response => {
                 let data = response.json();

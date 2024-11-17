@@ -1,3 +1,5 @@
+const absoluteUrl = "http://dankpadserver.jordynsblog.org:5000";
+//const absoluteUrl = ".";
 
 function liElement(inputString) {
     return "<li>" + inputString + "</li>\n";
@@ -6,7 +8,7 @@ function liElement(inputString) {
 function FormLogin() {
     const fd = FormData(document.getElementById("login-form"))
     var fddiv = document.getElementById("login-form-div");
-    fetch("/user/" + fd.get("username") + "/login")
+    fetch(absoulteUrl + "/user/" + fd.get("username") + "/login")
     .then(
         response => {
             if (fddiv.display == "block") {
