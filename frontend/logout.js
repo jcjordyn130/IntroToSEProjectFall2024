@@ -6,10 +6,10 @@ function revertLoginForm() {
     const logoutdiv = document.getElementById("logout-form-div");
     const logoutmsg = document.getElementById("login-message");
     if (logindiv) {
-        document.getElementById("login-form-div").display = "block";
+        document.getElementById("login-form-div").style.display = "block";
     }
     if (logoutdiv) {
-        document.getElementById("logout-form-div").display = "none";
+        document.getElementById("logout-form-div").style.display = "none";
     }
     if (logoutmsg) {
         document.getElementById("login-message").innerText = "Not Logged In!";

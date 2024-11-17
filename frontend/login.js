@@ -13,11 +13,11 @@ function FormLogin() {
     fetch(absoluteUrl + "user/" + fdUsername + "/login")
     .then(
         response => {
-            if (fddiv.display == "block") {
-                document.getElementById("login-form-div").display = "none";
+            if (fddiv.style.display == "block") {
+                document.getElementById("login-form-div").style.display = "none";
             }
            if (logoutdiv) {
-                logoutdiv.display = "block";
+                logoutdiv.style.display = "block";
                 document.getElementById("login-message").innerText = `Logged in as ${fdUsername}`;
             }
         }
