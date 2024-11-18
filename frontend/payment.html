@@ -34,9 +34,19 @@
     </p>
 
     <div id="payment-create-div" style="display:none">
-      <!--<form id="payment-create-form" action="CreatePaymentMethod()">
-        <input type="text" id=""
-      </form>-->
+      <form id="payment-create-form" action="CreatePaymentMethod()">
+        <input type="text" id="method-name" name="methodname"/>
+        <label for="method-name">Payment Method Name</label>
+        <input type="text" id="cardno-input" name="cardno"/>
+        <label for="cardno-input">Card Number</label>
+        <input type="text" id="cardexp-input" name="cardexp"/>
+        <label for="cardexp-input">Expiration (MM/DD)</label>
+        <input type="text" id="cardcvv-input" name="cardcvv"/>
+        <label for="cardcvv-input">CVV</label>
+        <input type="text" id="billing-input" name="billingaddress"/>
+        <label for="billing-input">Billing Address</label>
+        <input type="submit" value="New Payment"/>
+      </form>
     </div>
     <div id="payment-info-div" style="display:none">
       <h1>Payment Options</h1>
