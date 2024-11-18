@@ -1,35 +1,56 @@
 const absoluteUrl = "http://dankpadserver.jordynsblog.org:5000/";
 //const absoluteUrl = "./";
 
-function approveItem(id) {
-    fetch(absoluteUrl + `item/${id}/unapprove`)
-    .then(
-        response => {
-            document.getElementById("button2-" + id).style.display = "none";
-            document.getElementById("button1-" + id).onclick = `console.log("Item Already Approved!")`;
-            document.getElementById("button1-" + id).innerText = "Item Approved";
-        }
-    )
-    .catch(
-        (e) => {
-            console.error(e.message);
-        }
-    );
+var orderId = -1;
+var orderStatus = -1;
+
+function CreateOrder() {
+    fetch(absoluteUrl + "order/create")
+        .then(
+            response => {
+                orderId = response.id;
+                orderStatus = response.orderstatus;
+                document.getElementById("order-message").innerText = `Order ${orderId} created with status ${orderStatus}.`;
+            }
+        )
+        .catch(
+            (e) => {
+                console.error(e.message);
+            }
+        );
 }
 
-function unapproveItem(id) {
-    fetch(absoluteUrl + `item/${id}/approve`)
-    .then(
-        response => {
-            document.getElementById("button1-" + id).style.display = "none";
-            document.getElementById("button2-" + id).onclick = `console.log("Item Already Unapproved!")`;
-            document.getElementById("button2-" + id).innerText = "Item Unapproved";
-        }
-    ).catch(
-        (e) => {
-            console.error(e.message);
-        }
-    );
+function DeleteOrder() {
+    fetch(absoluteUrl + `order/${orderId}/delete`)
+        .then(
+            response => {
+                CreateOrder();
+                GenerateItemList();
+            }
+        )
+        .catch(
+            (e) => {
+                console.error(e.message);
+            }
+        );
+}
+
+function addItem(itemId) {
+    fetch(absoluteUrl + `order/${orderId}/add/${itemId}/1`)
+        .catch(
+            (e) => {
+                console.error(e.message);
+            }
+        );
+}
+
+function deleteItem(itemId) {
+    fetch(absoluteUrl + `order/${orderId}/delete/${itemId}/1`)
+        .catch(
+            (e) => {
+                console.error(e.message);
+            }
+        );
 }
 
 function GenerateItemList() {
@@ -45,11 +66,12 @@ function GenerateItemList() {
                     itemListText += "<ul>\n";
                     itemListText += `<li>Name: ${item.name}</li>\n`;
                     itemListText += `<li>Quantity: ${item.quantity}</li>\n`;
+                    itemListText += `<li>Description: ${item.description}</li>\n`;
                     itemListText += `<li>ID: ${item.id}</li>\n`;
                     itemListText += `<li>Approved: ${item.approval}</li>\n`;
                     itemListText += "</ul>\n<br/>\n";
-                    itemListText += `<button type="button" id="button1-${item.id}" onclick="approveItem(${item.id})">Approved?</button>\n`;
-                    itemListText += `<button type="button" id="button2-${item.id}" onclick="unapproveItem(${item.id})>Unapproved?</button>\n`;
+                    itemListText += `<button type="button" id="button1-${item.id}" onclick="addItem(${item.id})">Add?</button>\n`;
+                    itemListText += `<button type="button" id="button2-${item.id}" onclick="deleteItem(${item.id})>Delete?</button>\n`;
                     itemListText += "<br/>\n";
                 }
                 itemListElement.innerHTML = itemListText;
@@ -60,9 +82,7 @@ function GenerateItemList() {
                 console.error(e.message);
             }
         );
-    const authMsgElement = document.getElementById("auth-message");
-    if (authMsgElement)
-        authMsgElement.style.display = "none";
 }
 
+CreateOrder();
 GenerateItemList();

@@ -12,6 +12,7 @@ function CreatePaymentMethod() {
         .then(
             response => {
                 document.getElementById("payment-create-form").reset();
+                console.log(response);
             }
         )
         .catch(

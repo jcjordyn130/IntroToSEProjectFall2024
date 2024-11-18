@@ -28,6 +28,4 @@ function FormLogin() {
 
 const profileInfo = document.getElementById("profileinfo");
 
-
-
 FormLogin();
