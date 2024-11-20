@@ -1,6 +1,6 @@
 # Sprint 3 To-do
 
-- [ ] Account Creation (create.html, create.js) (Done?)
+- [ ] Account Creation (create.html, create.js)
 - [ ] Logging In (login.js)
 - [ ] Logging Out (logout.js)
 
