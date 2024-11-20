@@ -1,4 +1,4 @@
-const absoluteUrl = "http://dankpadserver.jordynsblog.org:5000/";
+//const absoluteUrl = "http://dankpadserver.jordynsblog.org:5000/";
 //const absoluteUrl = "./";
 
 function revertLoginForm() {
@@ -17,7 +17,7 @@ function revertLoginForm() {
 }
 
 function Logout() {
-    fetch(absoluteUrl + "user/logout")
+    fetch( "http://dankpadserver.jordynsblog.org:5000/" + "user/logout")
         .then(
             response => {
                 revertLoginForm();
@@ -31,7 +31,7 @@ function Logout() {
 }
 
 function LogoutE() {
-    fetch(absoluteUrl + "user/logouteverywhere")
+    fetch("http://dankpadserver.jordynsblog.org:5000/" + "user/logouteverywhere")
         .then(
             response => {
                 revertLoginForm();

@@ -10,27 +10,29 @@
 
 <body>
     <div id="create-form-div">
-        <form id="create-form" action="create.js">
+        <form id="create-form">
             <label for="username-input">Enter Username:</label>
-            <input type="text" id="username-input" name="username" />
+            <input type="text" id="username-input" name="username" required />
             <br />
             <label for="password-input">Enter Password:</label>
-            <input type="password" id="password-input" name="password" />
+            <input type="password" id="password-input" name="password" required />
             <label for="email-input">Enter Email Address:</label>
-            <input type="email" id="email-input" name="email-address" />
+            <input type="email" id="email-input" name="email-address" required />
             <br />
             <label for="buyer-input">Buyer:</label>
             <input type="radio" id="buyer-input" name="user-level" value="3" />
             <br />
             <label for="seller-input">Seller:</label>
-            <input type="radio" id="seller-input" name="user-level" value="2" />
+            <input type="radio" id="seller-input" name="user-level" value="2"/>
             <br />
             <label for="admin-input">Admin:</label>
             <input type="radio" id="admin-input" name="user-level" value="1" />
             <br />
-            <input type="submit" value="Create Account" />
+            <!--<input type="submit" value="Create Account" onclick="FormCreate()" />-->
+            <a href="#" onclick="FormCreate()">Submit</a>
         </form>
     </div>
+    <script src="create.js"></script>
     <a href="index.html">Return to Home Page</a>
     <footer>
         <p>

@@ -1,4 +1,4 @@
-const absoluteUrl = "http://dankpadserver.jordynsblog.org:5000/";
+//const absoluteUrl = "http://dankpadserver.jordynsblog.org:5000/";
 //const absoluteUrl = "./";
 
 function liElement(inputString) {
@@ -6,11 +6,11 @@ function liElement(inputString) {
 }
 
 function FormLogin() {
-    const fd = FormData(document.getElementById("login-form"))
+    const fd = new FormData(document.getElementById("login-form"));
     const fdUsername = fd.get("username");
     var fddiv = document.getElementById("login-form-div");
     const logoutdiv = document.getElementById("logout-form-div");
-    fetch(absoluteUrl + "user/" + fdUsername + "/login")
+    fetch("http://dankpadserver.jordynsblog.org:5000/user/" + fdUsername + "/login")
     .then(
         response => {
             if (fddiv.style.display == "block") {
@@ -23,9 +23,7 @@ function FormLogin() {
         }
     ).catch((e) => {
         console.error(e.message);
-    })
+    });
 }
 
 const profileInfo = document.getElementById("profileinfo");
-
-FormLogin();

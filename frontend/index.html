@@ -13,16 +13,17 @@
     <!-- <img src="logo.png" alt="logo" style="width:100px;height:100px"/> -->
     <h1>IntroToSEProjectFall2024</h1>
     <div id="login-form-div">
-      <form id="login-form" action="login.js">
+      <form id="login-form">
         <label for="username-input">Enter Username:</label>
-        <input type="text" id="username-input" name="username" />
+        <input type="text" id="username-input" name="username" required />
         <br />
         <label for="password-input">Enter Password:</label>
-        <input type="password" id="password-input" name="password" />
+        <input type="password" id="password-input" name="password" required />
         <br />
-        <input type="submit" value="Submit" />
+        <a href="#" onclick="FormLogin()">Submit</a>
       </form> <!-- Login and logout Form -->
     </div>
+    <script src="login.js"></script>
     <div id="logout-form-div" style="display:none;">
       <p id="login-message">Not Logged In!</p>
       <button type="button" onclick="Logout()">Logout Here</button>
