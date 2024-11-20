@@ -21,9 +21,12 @@ function FormCreate() {
     fetch(absoluteUrl + "user/" + fdUsername + "/create", options)
         .then(
             response => {
-                document.getElementById("create-form-div").style.display = "none";
+                if (response.ok) {
+                    document.getElementById("create-form-div").style.display = "none";
+                }
             }
-        ).catch(
+        )
+        .catch(
             (e) => {
                 console.error(e.message);
             }
