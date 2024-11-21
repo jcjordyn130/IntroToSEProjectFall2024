@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="storestyle.css" />
     <title>Create an Account</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 
 <body>
+    <h1>Create an Account</h1>
     <div id="create-form-div">
         <form id="create-form">
             <label for="username-input">Enter Username:</label>
@@ -29,7 +31,7 @@
             <input type="radio" id="admin-input" name="user-level" value="1" />
             <br />
             <!--<input type="submit" value="Create Account" onclick="FormCreate()" />-->
-            <a href="#" onclick="FormCreate()">Submit</a>
+            <a href="#" id="create-acc-submit">Submit</a>
         </form>
     </div>
     <script src="create.js"></script>
