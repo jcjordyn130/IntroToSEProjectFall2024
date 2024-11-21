@@ -21,6 +21,16 @@ $(document).ready(function () {
     });
 });
 
+function validateForm() // adding the "required" tag to the elements made this function redundant
+{
+    let x = document.forms["create-form"]["username-input"].value;
+    if (x == "")
+    {
+        alert("Username must be filled out");
+        return false;
+    }
+}
+
 /*
 function FormCreate() {
     const fd = new FormData(document.getElementById("create-form"));
