@@ -1,6 +1,25 @@
-const absoluteUrl = "http://dankpadserver.jordynsblog.org:5000";
-//const absoluteUrl = ".";
+$(document).ready(function () {
+    var username = null;
+    for (const [k, v] of URLSearchParams()) {
+        if (k == "username")
+            username = v;
+    }
+    if (username) {
+        $.ajax({
+            url: `http://dankpadserver.jordynsblog.org:5000/user/info/${username}`,
+            success: function (response) {
+                let data = response.json();
+                document.getElementById("username").innerText = data.username;
+                document.getElementById("api-id").innerText = `ID: ${data.id}`;
+                document.getElementById("email").innerText = `Email: ${data.email}`;
+                document.getElementById("user-level").innerText = `User Level: ${data.userlevel}`;
+                document.getElementById("approved").innerText = `Approved: ${data.approval}`;
+            }
+        });
+    }
+});
 
+/*
 var username = null;
 for (const [k, v] of URLSearchParams()) {
     if (k == "username")
@@ -45,3 +64,4 @@ if (username) {
             }
         );
 }
+*/

@@ -1,5 +1,17 @@
-//const absoluteUrl = "http://dankpadserver.jordynsblog.org:5000/";
-//const absoluteUrl = "./";
+$(document).ready(function () {
+    $("#logout-link").click(function () {
+        $.ajax({
+            url: "http://dankpadserver.jordynsblog.org:5000/user/logout",
+            success: revertLoginForm()
+        });
+    });
+    $("#logout-e-link").click(function () {
+        $.ajax({
+            url: "http://dankpadserver.jordynsblog.org:5000/user/logouteverywhere",
+            success: revertLoginForm()
+        });
+    });
+});
 
 function revertLoginForm() {
     const logindiv = document.getElementById("login-form-div");
@@ -14,32 +26,4 @@ function revertLoginForm() {
     if (logoutmsg) {
         document.getElementById("login-message").innerText = "Not Logged In!";
     }
-}
-
-function Logout() {
-    fetch( "http://dankpadserver.jordynsblog.org:5000/" + "user/logout")
-        .then(
-            response => {
-                revertLoginForm();
-            }
-        )
-        .catch(
-            (e) => {
-                console.error(e.message);
-            }
-        );
-}
-
-function LogoutE() {
-    fetch("http://dankpadserver.jordynsblog.org:5000/" + "user/logouteverywhere")
-        .then(
-            response => {
-                revertLoginForm();
-            }
-        )
-        .catch(
-            (e) => {
-                console.error(e.message);
-            }
-        );
 }
