@@ -2,7 +2,7 @@
 This is the backend code for Sprint 3.
 
 ## Installing
-Before runiing the backend, the dependencies need to be installed.
+Before running the backend, the dependencies need to be installed.
 
 This can be done using `pip` and the `requirements.txt` file as so:
 
