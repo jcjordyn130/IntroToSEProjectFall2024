@@ -29,18 +29,16 @@ function FormCreate() {
     const fdEmailAddress = fd.get("email-address");
     const fdUserLevel = fd.get("user-level");
     const options = {
-        headers: { "Content-Type": "application/json; charset=utf-8" },
-        mode: "no-cors",
         method: "POST",
-        body: JSON.stringify({
-            email: fdEmailAddress,
-            password: fdPassword,
-            userlevel: fdUserLevel
-        })
+        headers: { "content-type": "application/json" },
+        mode: "no-cors"
     };
+    options.body = JSON.stringify({
+        email: fdEmailAddress,
+        password: fdPassword,
+        userlevel: fdUserLevel
+    });
 
-    // Put jquery post function here.
-    $.post(absoluteUrl + "user/" + fdUsername + "/create", FormCreateSuccess())
     fetch(absoluteUrl + "user/" + fdUsername + "/create", options)
         .then(
             response => {
