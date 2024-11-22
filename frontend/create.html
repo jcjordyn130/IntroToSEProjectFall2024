@@ -14,7 +14,11 @@
     
     <div id="create-form-div">
 
-        <form id="create-form" action="create.js" method="post">
+        <script src="create.js"></script> <!--This loads the function to be used by the form on submit-->
+
+        <!--<form id="create-form" action="create.js" onsubmit="submit_form()" method="post">-->
+        <form id="create-form" onsubmit="return submit_form()" method="post">
+            
             <label for="username-input">Enter Username:</label>
             <input type="text" id="username-input" name="username" required />
             <br />
@@ -24,7 +28,7 @@
             <br />
 
             <label for="email-input">Enter Email Address:</label>
-            <input type="email" id="email-input" name="email-address" required />
+            <input type="email" id="email-input" name="email" required />
             <br />
 
 
