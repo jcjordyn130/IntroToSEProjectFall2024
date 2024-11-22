@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-    $("#create-acc-submit").click(function ()
+    $("#create-form").submit(function ()
     {
         const fd = new FormData(document.getElementById("create-form"));
         const fdUsername = fd.get("username");
@@ -26,7 +26,7 @@ $(document).ready(function()
     });
 });
 
-function validateForm() // adding the "required" tag to the elements made this function redundant
+/*function validateForm() // adding the "required" tag to the elements made this function redundant
 {
     let x = document.forms["create-form"]["username-input"].value;
     if (x == "")
@@ -34,7 +34,7 @@ function validateForm() // adding the "required" tag to the elements made this f
         alert("Username must be filled out");
         return false;
     }
-}
+}*/
 
 // This function needs to call the api to make a new account with the information from the form
 function submit_form()
