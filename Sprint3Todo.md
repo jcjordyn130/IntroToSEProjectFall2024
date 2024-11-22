@@ -7,8 +7,15 @@
 - [X] Buyer Item List (itemlist.html, itemlist.js)
 - [X] User Profile (profile.html, profile.js)
 
-- [ ] Debug the First 5 To-do Items
-- [ ] Turn in Video on Friday
+- [ ] User List (userlist.html, userlist.js)
+- [ ] User View (user.html, user.js) [with testing/password]
+
+- [ ] Debug Account Creation
+- [ ] Debug Logging In and Out
+- [ ] Debug Buyer Item List
+- [ ] Debug User Profile
+
+- [ ] Turn in Sprint 3 on Wed. 11/27/24
 
 <hr/>
 
