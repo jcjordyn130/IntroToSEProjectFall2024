@@ -24,7 +24,7 @@ $(document).ready(function () {
                     document.getElementById("login-message").innerText += `\nAPI Key: ${data.apikey}`;
                 }
                 localStorage.setItem("username", fdUsername);
-                localStorage.setItem("password", fd.get("password")); // are these first two necessary?
+                localStorage.setItem("password", fd.get("password"));
                 localStorage.setItem("apikey", data.apikey);
             }
         });
