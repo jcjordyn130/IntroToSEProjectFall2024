@@ -1,4 +1,6 @@
 from flask import Flask, request, jsonify, Request
+import flask_cors
+
 from .. import database
 from . import errors, responses, keymanager
 from ..database.dbtypes import *
@@ -30,6 +32,8 @@ class CustomFlask(Flask):
     request_class = CustomRequest
 
 app = CustomFlask(__name__)
+flask_cors.CORS(app)
+
 #db = database.Database("db.sqlite3")
 #km = keymanager.APIKeyManager(db)
 
