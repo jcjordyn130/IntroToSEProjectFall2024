@@ -26,4 +26,5 @@ function revertLoginForm() {
     if (logoutmsg) {
         document.getElementById("login-message").innerText = "Not Logged In!";
     }
+    localStorage.removeItem("apikey");
 }

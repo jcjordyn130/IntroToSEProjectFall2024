@@ -7,6 +7,9 @@
 - [X] Buyer Item List (itemlist.html, itemlist.js)
 - [X] User Profile (profile.html, profile.js)
 
+- [ ] Place API Key in localStorage.
+- [ ] Include API Key in header of Ajax calls.
+
 - [ ] User List (userlist.html, userlist.js)
 - [ ] User View (user.html, user.js) [with testing/password]
 
