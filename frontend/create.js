@@ -1,28 +1,25 @@
-$(document).ready(function()
-{
-    $("#create-form").submit(function ()
-    {
+$(document).ready(function () {
+    $("#create-form").submit(function () {
         const fd = new FormData(document.getElementById("create-form"));
         const fdUsername = fd.get("username");
         const fdPassword = fd.get("password");
         const fdEmailAddress = fd.get("email-address");
         const fdUserLevel = fd.get("user-level");
         $.ajax(
-        {
-            type: "POST",
-            url: "http://dankpadserver.jordynsblog.org:5000/user/" + fdUsername + "/create",
-            contentType: "application/json",
-            data:
             {
-                email: fdEmailAddress,
-                password: fdPassword,
-                userlevel: fdUserLevel
-            },
-            success: function ()
-            {
-                document.getElementById("create-form-div").style.display = "none";
-            }
-        });
+                type: "POST",
+                url: "http://dankpadserver.jordynsblog.org:5000/user/" + fdUsername + "/create",
+                contentType: "application/json",
+                data:
+                {
+                    email: fdEmailAddress,
+                    password: fdPassword,
+                    userlevel: fdUserLevel
+                },
+                success: function () {
+                    document.getElementById("create-form-div").style.display = "none";
+                }
+            });
     });
 });
 
@@ -37,8 +34,7 @@ $(document).ready(function()
 }*/
 
 // This function needs to call the api to make a new account with the information from the form
-function submit_form()
-{
+function submit_form() {
     //let username = document.forms["create-form"]["username"].value;
     //let password = document.forms["create-form"]["password"].value;
     //let email = document.forms["create-form"]["email"].value;

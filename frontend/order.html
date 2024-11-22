@@ -1,46 +1,50 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="storestyle.css"/>
-    <title>Your Orders</title>
-  </head>
-  <body>
-    <header>
-      <!-- <img src="logo.png" alt="logo" style="width:100px;height:100px"/> -->
-      <h1>IntroToSEProjectFall2024</h1>
-      <div id="login-form-div">
-        <form id="login-form" action="login.js" method="post">
-          <label for="username-input">Enter Username:</label>
-          <input type="text" id="username-input" name="username"/>
-          <br/>
-          <label for="password-input">Enter Password:</label>
-          <input type="password" id="password-input" name="password"/>
-          <br/>
-          <input type="submit" value="Log In"/>
-        </form> <!-- Login and logout Form -->
-      </div>
-      <div id="logout-form-div" style="display:none;">
-        <p id="login-message">Not Logged In!</p>
-        <button type="button" onclick="Logout()">Logout Here</button>
-        <button type="button" onclick="LogoutE()">Logout Everywhere</button>
-      </div>
-      <script src="logout.js"></script>
-    </header>
-    <p>
-      <emph>Put Order Information Here</emph>
-    </p>
-    <script src="order.js"></script>
 
-    <br>
-    <a href="index.html">Return to Home Page</a>
-    
-    <footer>
-      <p>
-        IntroToSEProjectFall2024: Canvas Group 4
-      </p>
-	    <a href="../LICENSE">BSD 3-Clause License</a>
-    </footer>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="storestyle.css" />
+  <title>Your Orders</title>
+</head>
+
+<body>
+  <header>
+    <!-- <img src="logo.png" alt="logo" style="width:100px;height:100px"/> -->
+    <h1>IntroToSEProjectFall2024</h1>
+    <div id="login-form-div">
+      <form id="login-form">
+        <label for="username-input">Enter Username:</label>
+        <input type="text" id="username-input" name="username" required />
+        <br />
+        <label for="password-input">Enter Password:</label>
+        <input type="password" id="password-input" name="password" required />
+        <br />
+        <a href="#" id="login-form-link">Log In</a>
+      </form> <!-- Login and logout Form -->
+    </div>
+    <div id="logout-form-div" style="display:none;">
+      <p id="login-message">Not Logged In!</p>
+      <a href="#" id="logout-link">Logout Here</a>
+      <a href="#" id="logout-e-link">Logout Everywhere</a>
+    </div>
+    <script src="login.js"></script>
+    <script src="logout.js"></script>
+  </header>
+  <p>
+    <emph>Put Order Information Here</emph>
+  </p>
+  <script src="order.js"></script>
+
+  <br>
+  <a href="index.html">Return to Home Page</a>
+
+  <footer>
+    <p>
+      IntroToSEProjectFall2024: Canvas Group 4
+    </p>
+    <a href="../LICENSE">BSD 3-Clause License</a>
+  </footer>
+</body>
+
 </html>
