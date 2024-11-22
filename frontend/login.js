@@ -11,6 +11,7 @@ $(document).ready(function () {
             data: JSON.stringify({
                 password: fd.get("password")
             }),
+            dataType: "json",
             url: "http://dankpadserver.jordynsblog.org:5000/user/" + fdUsername.toString() + "/login",
             success: function (response) {
                 let data = response.json();

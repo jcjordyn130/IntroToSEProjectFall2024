@@ -1,21 +1,34 @@
 $(document).ready(function () {
-    $("#create-form").submit(function () {
+    $("#create-acc-submit").click(function () {
         const fd = new FormData(document.getElementById("create-form"));
         const fdUsername = fd.get("username");
         const fdPassword = fd.get("password");
-        const fdEmailAddress = fd.get("email-address");
-        const fdUserLevel = fd.get("user-level");
+        const fdEmailAddress = fd.get("email");
+        const fdUserType = fd.get("user-type");
+        var fdUserLevel = 3;
+        switch (fdUserType) {
+            case "admin":
+                fdUserLevel = 1;
+                break;
+            case "seller":
+                fdUserLevel = 2;
+                break;
+            default:
+                break;
+        }
         $.ajax(
             {
                 type: "POST",
                 url: "http://dankpadserver.jordynsblog.org:5000/user/" + fdUsername + "/create",
                 contentType: "application/json",
                 data:
-                {
+                JSON.stringify({
                     email: fdEmailAddress,
                     password: fdPassword,
                     userlevel: fdUserLevel
-                },
+                }),
+                dataType: "json",
+                processData: false,
                 success: function () {
                     document.getElementById("create-form-div").style.display = "none";
                 }
