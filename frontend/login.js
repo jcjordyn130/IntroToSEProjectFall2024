@@ -1,3 +1,5 @@
+import "https://code.jquery.com/jquery-3.7.1.min.js";
+
 $(document).ready(function () {
     $("#login-form-link").click(function () {
         const fd = new FormData(document.getElementById("login-form"));

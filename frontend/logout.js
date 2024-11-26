@@ -1,3 +1,5 @@
+import "https://code.jquery.com/jquery-3.7.1.min.js";
+
 $(document).ready(function () {
     $("#logout-link").click(function () {
         $.ajax({

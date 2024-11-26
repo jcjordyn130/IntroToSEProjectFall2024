@@ -22,7 +22,7 @@ $(document).ready(function () {
                     // =====
                     const userParams = new URLSearchParams();
                     userParams.append("username", user.username);
-                    userListText += `<a href="user.html?${userParams.toString()}"></a>`
+                    userListText += `<a href="user.html?${userParams.toString()}"></a>`;
                 }
                 userListElement.innerHTML = userListText;
             }
