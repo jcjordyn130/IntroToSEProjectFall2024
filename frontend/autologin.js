@@ -1,6 +1,7 @@
 $(document).ready(function () {
+  const fddiv = document.getElementById("login-form-div");
+  const logoutdiv = document.getElementById("logout-form-div");
   if (localStorage.username && localStorage.password) {
-    console.log("API Key: " + localStorage.getItem("apikey") + "\n");
     const lsUsername = localStorage.getItem("username");
     const lsPassword = localStorage.getItem("password");
     $.ajax({
@@ -12,18 +13,17 @@ $(document).ready(function () {
       dataType: "json",
       url: "http://dankpadserver.jordynsblog.org:5000/user/" + lsUsername.toString() + "/login",
       success: function (response) {
-        let data = response.json();
         if (fddiv.style.display == "block") {
           document.getElementById("login-form-div").style.display = "none";
         }
         if (logoutdiv) {
           logoutdiv.style.display = "block";
           document.getElementById("login-message").innerText = `You're logged in as ${lsUsername}.`;
-          document.getElementById("login-message").innerText += `\nAPI Key: ${data.apikey}`;
+          document.getElementById("login-message").innerText += `\nAPI Key: ${response.apikey}`;
         }
         localStorage.setItem("username", lsUsername);
         localStorage.setItem("password", lsPassword); // are these first two necessary?
-        localStorage.setItem("apikey", data.apikey);
+        localStorage.setItem("apikey", response.apikey);
       }
     });
   }

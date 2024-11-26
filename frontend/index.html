@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="storestyle.css" />
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="autologin.js"></script>
   <title>Store Home Page</title>
 </head>
 
@@ -51,11 +52,16 @@
 
   <h1>Admin Webpages</h1>
   <p>
-    <a href="userlist.html">User List</a> <!-- Coded -->
+    <a id="user-list-link" href="userlist.html">User List</a> <!-- Coded -->
     <a href="adminitemlist.html">Admin Item List</a> <!-- Coded -->
     <a href="user.html">View User</a> <!-- Coded -->
   </p>
 
+  <script>
+    const sp = new URLSearchParams({key: localStorage.getItem("apikey")}).toString();
+    $("#user-list-link").attr("href", `userlist.html?${sp}`);
+  </script>
+  
   <footer>
     <p>
       IntroToSEProjectFall2024: Canvas Group 4
@@ -63,8 +69,6 @@
     <a href="../LICENSE">BSD
       3-Clause License</a>
   </footer>
-
-  <script src="autologin.js"></script>
 </body>
 
 </html>

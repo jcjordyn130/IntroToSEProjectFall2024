@@ -1,7 +1,5 @@
-import "https://code.jquery.com/jquery-3.7.1.min.js";
-
 var username = null;
-for (const [k, v] of URLSearchParams()) {
+for (const [k, v] of new URLSearchParams()) {
     if (k == "username")
         username = v;
 } // get username from the URL
