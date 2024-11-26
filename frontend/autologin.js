@@ -1,4 +1,6 @@
-$(document).ready(function () {
+import("https://code.jquery.com/jquery-3.7.1.min.js");
+
+function autoLogin() {
   const fddiv = document.getElementById("login-form-div");
   const logoutdiv = document.getElementById("logout-form-div");
   if (localStorage.username && localStorage.password) {
@@ -27,4 +29,4 @@ $(document).ready(function () {
       }
     });
   }
-});
+}

@@ -1,7 +1,12 @@
+import("https://code.jquery.com/jquery-3.7.1.min.js");
+import("autologin.js");
 var orderId = -1;
 var orderStatus = -1;
 
 $(document).ready(function () {
+    if (localStorage.apikey) {
+        autoLogin();
+    }
     $.ajax({
         type: "GET",
         url: "http://dankpadserver.jordynsblog.org:5000/item/list",

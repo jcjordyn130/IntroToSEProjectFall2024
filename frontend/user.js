@@ -1,3 +1,6 @@
+import("https://code.jquery.com/jquery-3.7.1.min.js");
+import("autologin.js");
+
 var username = null;
 for (const [k, v] of new URLSearchParams()) {
     if (k == "username")
@@ -15,10 +18,9 @@ function approveUser() {
     $.ajax({
         type: "GET",
         url: `http://dankpadserver.jordynsblog.org:5000/user/${username}/approve`,
-        data: JSON.stringify({
-            key: localStorage.getItem("apikey") // Is this correct?
-        }),
-        dataType: "json",
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("apikey")
+        },
         success: function () {
             buttonElement1.onclick = `console.log("User Approval Already Set")`;
             buttonElement1.innerText = "User Approved";
@@ -33,10 +35,9 @@ function unapproveuser() {
     $.ajax({
         type: "GET",
         url: `http://dankpadserver.jordynsblog.org:5000/user/${username}/unapprove`,
-        data: JSON.stringify({
-            key: localStorage.getItem("apikey") // Is this correct?
-        }),
-        dataType: "json",
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("apikey")
+        },
         success: function () {
             buttonElement1.style.display = "none";
             buttonElement2.onclick = `console.log("User Approval Already Set")`;
@@ -46,6 +47,9 @@ function unapproveuser() {
 }
 
 $(document).ready(function () {
+    if (localStorage.apikey) {
+        autoLogin();
+    }
     if (!username || !userInfoElement)
         return;
     if (usernameElement)
@@ -56,7 +60,6 @@ $(document).ready(function () {
         headers: {
             Authorization: "Bearer " + localStorage.getItem("apikey")
         },
-        dataType: "json",
         success: function (response) {
             let data = response.json().users[0]; // one item in list
             var userInfoText = `<li>ID: ${data.id}</li>\n`;

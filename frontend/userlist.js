@@ -1,4 +1,10 @@
+import("https://code.jquery.com/jquery-3.7.1.min.js");
+import("autologin.js");
+
 $(document).ready(function () {
+    if (localStorage.apikey) {
+        autoLogin();
+    }
     const fddiv = document.getElementById("login-form-div");
     const logoutdiv = document.getElementById("logout-form-div");
     if (localStorage.username && localStorage.password) {
