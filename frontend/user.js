@@ -53,9 +53,9 @@ $(document).ready(function () {
     $.ajax({
         type: "GET",
         url: "http://dankpadserver.jordynsblog.org:5000/user/info/" + username,
-        data: JSON.stringify({
-            key: localStorage.getItem("apikey") // Is this correct?
-        }),
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("apikey")
+        },
         dataType: "json",
         success: function (response) {
             let data = response.json().users[0]; // one item in list

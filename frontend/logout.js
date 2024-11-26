@@ -2,18 +2,18 @@ $(document).ready(function () {
     $("#logout-link").click(function () {
         $.ajax({
             url: "http://dankpadserver.jordynsblog.org:5000/user/logout",
-            data: new URLSearchParams({
-                key: localStorage.getItem("apikey") // Is this correct?
-            }).toString(),
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("apikey")
+            },
             success: revertLoginForm()
         });
     });
     $("#logout-e-link").click(function () {
         $.ajax({
             url: "http://dankpadserver.jordynsblog.org:5000/user/logouteverywhere",
-            data: new URLSearchParams({
-                key: localStorage.getItem("apikey") // Is this correct?
-            }).toString(),
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("apikey")
+            },
             success: revertLoginForm()
         });
     });
