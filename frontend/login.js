@@ -1,7 +1,9 @@
 import("https://code.jquery.com/jquery-3.7.1.min.js");
 
-$(document).ready(function () {
-    $("#login-form-link").click(function () {
+$(document).ready(function()
+{
+    $("#login-form-link").click(function()
+    {
         const fd = new FormData(document.getElementById("login-form"));
         const fdUsername = fd.get("username");
         console.log(fdUsername);
@@ -27,6 +29,9 @@ $(document).ready(function () {
                 localStorage.setItem("username", fdUsername);
                 localStorage.setItem("password", fd.get("password"));
                 localStorage.setItem("apikey", response.apikey);
+
+                // Should send an alert when successfully logged in
+                alert("You are now logged in!")
             }
         });
     });
